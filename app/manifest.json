@@ -1,0 +1,33 @@
+{
+  "name": "セコセコポイント",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "おのれreCAPTCHA",
+  "icons": {
+    "16": "images/icon_16.png",
+    "128": "images/icon_128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "persistent": false,
+    "scripts": ["scripts/background.js"]
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": [
+      "scripts/script.js",
+      "scripts/mori.js"
+    ]
+  }],
+  "browser_action": {
+    "default_icon": "images/icon_16.png",
+    "default_title": "auto-point-ext"
+  },
+  "permissions": [
+    "tabs",
+    "background",
+    "storage",
+    "http://*/*",
+    "https://*/*"
+  ]
+}
