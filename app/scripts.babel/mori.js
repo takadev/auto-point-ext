@@ -1,98 +1,101 @@
 import $ from 'jquery';
 
-let page_num = 1;
-let cnt = 0;
-let links = [];
-
 const MORI = 'mrga.service-navi.jp';
-/*
-const REAL_LINKS_KEY = 'real_links';
-const REAL_PAGE_KEY = 'real_world_page';
-const REAL_WORLD_PAGE = 'http://realworld.jp/contents/rec/page/';
-*/
+const MORI_GAMEAPP = 'gameapp.galaxymatome.com';
+const MORI_ARTICLES = 'http://mrga.service-navi.jp/square/articles';
+const MORI_FLAG = 'mori_flag';
+const MORI_READ_FLAG = 'mori_read_flag';
+const MORI_LINKS_KEY = 'mori_links';
+
+let links = [];
 
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
 {
 	if (request == "mori")
 	{
-		//set_storage(REAL_PAGE_KEY, 1);
-		alert('morimori');
+		set_storage(MORI_FLAG, 1);
+		window.open(MORI_ARTICLES, '_blank');
 	}
-});
-/*
-$(function(){
-	if (location.host.indexOf(REAL_WORLD) == -1)
-	{
-		return false;
-	}
-	chrome.storage.local.get(REAL_LINKS_KEY, function(value)
-	{
-		if ($.isEmptyObject(value))
-		{
-			return;
-		}
-		read_article(JSON.parse(value[REAL_LINKS_KEY]));
-	});
-	chrome.storage.local.get(REAL_PAGE_KEY, function(value)
-	{
-		if ($.isEmptyObject(value))
-		{
-			return;
-		}
-		get_real_world(value[REAL_PAGE_KEY]);
-	});
 });
 
-function get_real_world(value)
-{
-	page_num = value;
-	var a_list = $("section#recommend").find('a.clearfix.sec-recommend.able');
-	$.each(a_list, function(i, val) {
-		if (cnt >= 5)
+$(function(){
+	//chrome.storage.local.remove(MORI_FLAG);
+	//chrome.storage.local.remove(MORI_LINKS_KEY);
+	chrome.storage.local.get(MORI_FLAG, function(value)
+	{
+		if ($.isEmptyObject(value))
 		{
 			return false;
 		}
-		var href = $(val).attr('href');
-		links.push(href);
-		cnt++;
+
+		if (location.href == MORI_ARTICLES)
+		{
+			get_articles();
+		}
+		else if (location.href.indexOf(MORI_GAMEAPP + '/induction/') != -1)
+		{
+			chrome.storage.local.get(MORI_LINKS_KEY, function(value){
+				if ($.isEmptyObject(value))
+				{
+					return false;
+				}
+				read_article(JSON.parse(value[MORI_LINKS_KEY]));
+			});
+		}
+		else if (location.href.indexOf(MORI_GAMEAPP + '/article/') != -1)
+		{
+			$("div.button__layer").find('a')[0].click();
+		}
+		else
+		{
+			chrome.storage.local.get(MORI_READ_FLAG, function(value){
+				if ($.isEmptyObject(value))
+				{
+					set_storage(MORI_READ_FLAG, 1);
+					var url = $("div.article").find("div.article-read-more").find("a").attr('href');
+					window.location.href = url;
+				}
+				else
+				{
+					chrome.storage.local.get(MORI_LINKS_KEY, function(value){
+						go_article(JSON.parse(value[MORI_LINKS_KEY]))
+						chrome.storage.local.remove(MORI_READ_FLAG);
+					});
+				}
+			});
+		}
 	});
-	if (cnt >= 5)
-	{
-		chrome.storage.local.remove(REAL_PAGE_KEY);
-		go_article(links);
-	}
-	else
-	{
-		page_num++;
-		set_storage(REAL_PAGE_KEY, page_num);
-		window.location.href = REAL_WORLD_PAGE + String(page_num);
-	}
-}
+});
 
-function read_article(articles)
+
+function get_articles()
 {
-	window.scroll(0, $(document).height());
-	setTimeout(function(){
-		var tag = $("section#complete").find("a.modal-close");
-		$(tag)[0].click();
-	}, 1000);
-
-	if (articles.length <= 0)
-	{
-		chrome.storage.local.remove(REAL_LINKS_KEY);
-		window.close();
-		return false;
-	}
-	setTimeout(function(){
-		go_article(articles);
-	}, 2000);
+	$("div.enquete_box").find('a').each(function(){
+		var href = $(this).attr('href');
+		links.push(href);
+	});
+	go_article(links);
 }
 
 function go_article(articles)
 {
+	if (articles.length <= 0)
+	{
+		chrome.storage.local.remove(MORI_FLAG);
+		chrome.storage.local.remove(MORI_READ_FLAG);
+		chrome.storage.local.remove(MORI_LINKS_KEY);
+		return false;
+	}
 	var url = articles.shift();
-	set_storage(REAL_LINKS_KEY, JSON.stringify(articles));
-	window.location.href = url;
+	set_storage(MORI_LINKS_KEY, JSON.stringify(articles));
+	window.location.href = 'http://' + MORI + url;
+}
+
+function read_article(articles)
+{
+	var list = $("ul.new__list").find('li')[0];
+	var url = $(list).find('a').attr('href');
+	window.location.href = 'http://' + MORI_GAMEAPP + url;
 }
 
 function set_storage(key, value)
@@ -101,4 +104,3 @@ function set_storage(key, value)
 	entity[key] = value;
 	chrome.storage.local.set(entity);
 }
-*/

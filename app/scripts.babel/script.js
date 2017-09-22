@@ -1,13 +1,13 @@
 import $ from 'jquery';
 
-let page_num = 1;
-let cnt = 0;
-let links = [];
-
 const REAL_WORLD = 'realworld.jp';
 const REAL_LINKS_KEY = 'real_links';
 const REAL_PAGE_KEY = 'real_world_page';
 const REAL_WORLD_PAGE = 'http://realworld.jp/contents/rec/page/';
+
+let page_num = 1;
+let cnt = 0;
+let links = [];
 
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
 {
@@ -27,7 +27,7 @@ $(function(){
 	{
 		if ($.isEmptyObject(value))
 		{
-			return;
+			return false;
 		}
 		read_article(JSON.parse(value[REAL_LINKS_KEY]));
 	});
@@ -35,7 +35,7 @@ $(function(){
 	{
 		if ($.isEmptyObject(value))
 		{
-			return;
+			return false;
 		}
 		get_real_world(value[REAL_PAGE_KEY]);
 	});
