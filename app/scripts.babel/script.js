@@ -46,7 +46,7 @@ function get_real_world(value)
 	page_num = value;
 	var a_list = $("section#recommend").find('a.clearfix.sec-recommend.able');
 	$.each(a_list, function(i, val) {
-		if (cnt >= 5)
+		if (cnt > 5)
 		{
 			return false;
 		}

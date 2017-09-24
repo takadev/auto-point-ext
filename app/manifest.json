@@ -16,7 +16,7 @@
     "matches": ["<all_urls>"],
     "js": [
       "scripts/script.js",
-      "scripts/mori.js"
+      "scripts/mori_read.js"
     ]
   }],
   "browser_action": {

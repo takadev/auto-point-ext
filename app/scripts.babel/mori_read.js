@@ -6,6 +6,7 @@ const MORI_ARTICLES = 'http://mrga.service-navi.jp/square/articles';
 const MORI_FLAG = 'mori_flag';
 const MORI_READ_FLAG = 'mori_read_flag';
 const MORI_LINKS_KEY = 'mori_links';
+const MORI_BONUS_KEY = 'mori_bonus';
 
 let links = [];
 
@@ -19,8 +20,6 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
 });
 
 $(function(){
-	//chrome.storage.local.remove(MORI_FLAG);
-	//chrome.storage.local.remove(MORI_LINKS_KEY);
 	chrome.storage.local.get(MORI_FLAG, function(value)
 	{
 		if ($.isEmptyObject(value))
@@ -52,7 +51,7 @@ $(function(){
 				if ($.isEmptyObject(value))
 				{
 					set_storage(MORI_READ_FLAG, 1);
-					var url = $("div.article").find("div.article-read-more").find("a").attr('href');
+					let url = $("div.article").find("div.article-read-more").find("a").attr('href');
 					window.location.href = url;
 				}
 				else
@@ -71,7 +70,7 @@ $(function(){
 function get_articles()
 {
 	$("div.enquete_box").find('a').each(function(){
-		var href = $(this).attr('href');
+		let href = $(this).attr('href');
 		links.push(href);
 	});
 	go_article(links);
@@ -81,26 +80,50 @@ function go_article(articles)
 {
 	if (articles.length <= 0)
 	{
-		chrome.storage.local.remove(MORI_FLAG);
-		chrome.storage.local.remove(MORI_READ_FLAG);
-		chrome.storage.local.remove(MORI_LINKS_KEY);
-		return false;
+		chrome.storage.local.get(MORI_BONUS_KEY, function(value){
+			if ($.isEmptyObject(value))
+			{
+				chrome.storage.local.remove(MORI_FLAG);
+				chrome.storage.local.remove(MORI_READ_FLAG);
+				chrome.storage.local.remove(MORI_LINKS_KEY);
+				chrome.runtime.sendMessage({type:'mori_'});
+				return false;
+			}
+			else
+			{
+				chrome.storage.local.remove(MORI_BONUS_KEY);
+				window.location.href = 'http://' + MORI + value[MORI_BONUS_KEY];
+			}
+		});
+
 	}
-	var url = articles.shift();
+	let url = articles.shift();
 	set_storage(MORI_LINKS_KEY, JSON.stringify(articles));
 	window.location.href = 'http://' + MORI + url;
 }
 
 function read_article(articles)
 {
-	var list = $("ul.new__list").find('li')[0];
-	var url = $(list).find('a').attr('href');
+	chrome.storage.local.get(MORI_BONUS_KEY, function(value){
+		if ($.isEmptyObject(value))
+		{
+			let list = $("ul.new__list").find('li')[1];
+			let a_tag = $(list).find('a');
+			let text = a_tag.text();
+			if (text.indexOf('ボーナス') != -1)
+			{
+				set_storage(MORI_BONUS_KEY, $(a_tag).attr('href'));
+			}
+		}
+	});
+	let list = $("ul.new__list").find('li')[0];
+	let url = $(list).find('a').attr('href');
 	window.location.href = 'http://' + MORI_GAMEAPP + url;
 }
 
 function set_storage(key, value)
 {
-	var entity = {};
+	let entity = {};
 	entity[key] = value;
 	chrome.storage.local.set(entity);
 }

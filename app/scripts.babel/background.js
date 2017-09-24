@@ -13,3 +13,11 @@ chrome.browserAction.onClicked.addListener(function(tab)
 		chrome.tabs.sendMessage(tab.id, 'mori');
 	}
 });
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+	var message = request.type;
+	if (message == '')
+	{
+		
+	}
+});
