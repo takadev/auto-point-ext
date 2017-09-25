@@ -5,7 +5,7 @@ const REAL_LINKS_KEY = 'real_links';
 const REAL_PAGE_KEY = 'real_world_page';
 const REAL_WORLD_PAGE = 'http://realworld.jp/contents/rec/page/';
 
-const MORI_READ_FLAG = 'mori_read_flag';
+const MORI_FLAG = 'mori_flag';
 const MORI_READ_URL = 'http://mrga.service-navi.jp/square/articles';
 
 let page_num = 1;
@@ -97,7 +97,7 @@ function go_article(articles)
 function finish()
 {
 	clear([REAL_LINKS_KEY]);
-	set_storage(MORI_READ_FLAG, 1);
+	set_storage(MORI_FLAG, 1);
 	window.open(MORI_READ_URL, '_blank');
 }
 

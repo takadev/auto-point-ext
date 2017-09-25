@@ -13,18 +13,6 @@ const MORI_SURVEYS_FLAG = 'mori_surveys_flag';
 
 let links = [];
 
-/*
-chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
-{
-	if (request == "mori")
-	{
-		clear([MORI_BONUS_KEY, MORI_LINKS_KEY, MORI_READ_FLAG]);
-		set_storage(MORI_FLAG, 1);
-		window.open(MORI_ARTICLES, '_blank');
-	}
-});
-*/
-
 $(function(){
 	chrome.storage.local.get(MORI_FLAG, function(value)
 	{
