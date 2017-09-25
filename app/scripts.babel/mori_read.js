@@ -14,6 +14,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
 {
 	if (request == "mori")
 	{
+		clear([MORI_BONUS_KEY, MORI_LINKS_KEY, MORI_READ_FLAG]);
 		set_storage(MORI_FLAG, 1);
 		window.open(MORI_ARTICLES, '_blank');
 	}
@@ -43,7 +44,8 @@ $(function(){
 		}
 		else if (location.href.indexOf(MORI_GAMEAPP + '/article/') != -1)
 		{
-			$("div.button__layer").find('a')[0].click();
+			let url = $("div.button__layer").find('a').attr('href');
+			window.location.href = url;
 		}
 		else
 		{
@@ -66,7 +68,6 @@ $(function(){
 	});
 });
 
-
 function get_articles()
 {
 	$("div.enquete_box").find('a').each(function(){
@@ -83,23 +84,22 @@ function go_article(articles)
 		chrome.storage.local.get(MORI_BONUS_KEY, function(value){
 			if ($.isEmptyObject(value))
 			{
-				chrome.storage.local.remove(MORI_FLAG);
-				chrome.storage.local.remove(MORI_READ_FLAG);
-				chrome.storage.local.remove(MORI_LINKS_KEY);
+				clear([MORI_FLAG, MORI_READ_FLAG, MORI_LINKS_KEY])
 				chrome.runtime.sendMessage({type:'mori_'});
 				return false;
 			}
 			else
 			{
-				chrome.storage.local.remove(MORI_BONUS_KEY);
-				window.location.href = 'http://' + MORI + value[MORI_BONUS_KEY];
+				window.location.href = 'http://' + MORI_GAMEAPP + value[MORI_BONUS_KEY];
 			}
 		});
-
 	}
-	let url = articles.shift();
-	set_storage(MORI_LINKS_KEY, JSON.stringify(articles));
-	window.location.href = 'http://' + MORI + url;
+	else
+	{
+		let url = articles.shift();
+		set_storage(MORI_LINKS_KEY, JSON.stringify(articles));
+		window.location.href = 'http://' + MORI + url;
+	}
 }
 
 function read_article(articles)
@@ -126,4 +126,12 @@ function set_storage(key, value)
 	let entity = {};
 	entity[key] = value;
 	chrome.storage.local.set(entity);
+}
+
+function clear(keys)
+{
+	for(var i = 0; i < keys.length; i++)
+	{
+		chrome.storage.local.remove(keys[i]);
+	}
 }
