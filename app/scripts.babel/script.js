@@ -5,6 +5,9 @@ const REAL_LINKS_KEY = 'real_links';
 const REAL_PAGE_KEY = 'real_world_page';
 const REAL_WORLD_PAGE = 'http://realworld.jp/contents/rec/page/';
 
+const MORI_READ_FLAG = 'mori_read_flag';
+const MORI_READ_URL = 'http://mrga.service-navi.jp/square/articles';
+
 let page_num = 1;
 let cnt = 0;
 let links = [];
@@ -50,13 +53,12 @@ function get_real_world(value)
 		{
 			return false;
 		}
-		var href = $(val).attr('href');
-		links.push(href);
+		links.push($(val).attr('href'));
 		cnt++;
 	});
 	if (cnt >= 5)
 	{
-		chrome.storage.local.remove(REAL_PAGE_KEY);
+		clear([REAL_PAGE_KEY]);
 		go_article(links);
 	}
 	else
@@ -77,8 +79,7 @@ function read_article(articles)
 
 	if (articles.length <= 0)
 	{
-		chrome.storage.local.remove(REAL_LINKS_KEY);
-		window.close();
+		finish();
 		return false;
 	}
 	setTimeout(function(){
@@ -93,9 +94,24 @@ function go_article(articles)
 	window.location.href = url;
 }
 
+function finish()
+{
+	clear([REAL_LINKS_KEY]);
+	set_storage(MORI_READ_FLAG, 1);
+	window.open(MORI_READ_URL, '_blank');
+}
+
 function set_storage(key, value)
 {
 	var entity = {};
 	entity[key] = value;
 	chrome.storage.local.set(entity);
+}
+
+function clear(keys)
+{
+	for(var i = 0; i < keys.length; i++)
+	{
+		chrome.storage.local.remove(keys[i]);
+	}
 }

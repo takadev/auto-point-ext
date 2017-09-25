@@ -16,7 +16,13 @@
     "matches": ["<all_urls>"],
     "js": [
       "scripts/script.js",
-      "scripts/mori_read.js"
+      "scripts/real_service.js",
+      "scripts/mori_read.js",
+      "scripts/mori_survey.js",
+      "scripts/mori_diagnoses.js",
+      "scripts/mori_pittan.js",
+      "scripts/mori_columns.js",
+      "scripts/mori_vote.js"
     ]
   }],
   "browser_action": {

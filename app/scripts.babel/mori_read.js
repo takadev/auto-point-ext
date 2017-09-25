@@ -8,8 +8,12 @@ const MORI_READ_FLAG = 'mori_read_flag';
 const MORI_LINKS_KEY = 'mori_links';
 const MORI_BONUS_KEY = 'mori_bonus';
 
+const MORI_SURVEYS_URL = 'http://mrga.service-navi.jp/square/surveys';
+const MORI_SURVEYS_FLAG = 'mori_surveys_flag';
+
 let links = [];
 
+/*
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
 {
 	if (request == "mori")
@@ -19,6 +23,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
 		window.open(MORI_ARTICLES, '_blank');
 	}
 });
+*/
 
 $(function(){
 	chrome.storage.local.get(MORI_FLAG, function(value)
@@ -84,13 +89,14 @@ function go_article(articles)
 		chrome.storage.local.get(MORI_BONUS_KEY, function(value){
 			if ($.isEmptyObject(value))
 			{
-				clear([MORI_FLAG, MORI_READ_FLAG, MORI_LINKS_KEY])
-				chrome.runtime.sendMessage({type:'mori_'});
+				finish();
 				return false;
 			}
 			else
 			{
-				window.location.href = 'http://' + MORI_GAMEAPP + value[MORI_BONUS_KEY];
+				let bonus = value[MORI_BONUS_KEY];
+				clear([MORI_BONUS_KEY]);
+				window.location.href = 'http://' + MORI_GAMEAPP + bonus;
 			}
 		});
 	}
@@ -119,6 +125,13 @@ function read_article(articles)
 	let list = $("ul.new__list").find('li')[0];
 	let url = $(list).find('a').attr('href');
 	window.location.href = 'http://' + MORI_GAMEAPP + url;
+}
+
+function finish()
+{
+	clear([MORI_FLAG, MORI_READ_FLAG, MORI_LINKS_KEY])
+	set_storage(MORI_SURVEYS_FLAG, 1);
+	window.open(MORI_SURVEYS_URL, '_blank');
 }
 
 function set_storage(key, value)
