@@ -37,8 +37,15 @@ $(function(){
 		}
 		else if (location.href.indexOf(MORI_GAMEAPP + '/article/') != -1)
 		{
-			let url = $("div.button__layer").find('a').attr('href');
-			window.location.href = url;
+			if (location.href.indexOf('/bonus/') != -1)
+			{
+				$("a.entrance__button.ad_article").click();
+			}
+			else
+			{
+				let url = $("div.button__layer").find('a').attr('href');
+				window.location.href = url;
+			}
 		}
 		else
 		{

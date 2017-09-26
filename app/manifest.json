@@ -22,7 +22,9 @@
       "scripts/mori_diagnoses.js",
       "scripts/mori_pittan.js",
       "scripts/mori_columns.js",
-      "scripts/mori_vote.js"
+      "scripts/mori_vote.js",
+      "scripts/gen_forest.js",
+      "scripts/gen_race.js"
     ]
   }],
   "browser_action": {

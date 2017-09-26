@@ -58,7 +58,7 @@ function answer()
 {
 	timer = setInterval(function(){
 		check();
-	}, 3000)
+	}, 1000)
 }
 
 function check()
@@ -106,7 +106,7 @@ function check()
 		{
 			next();
 		}
-	}, 1000);
+	}, 500);
 }
 
 function next()
