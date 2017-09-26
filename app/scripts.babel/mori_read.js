@@ -124,7 +124,7 @@ function read_article(articles)
 
 function finish()
 {
-	clear([MORI_FLAG, MORI_READ_FLAG, MORI_LINKS_KEY])
+	clear([MORI_FLAG, MORI_READ_FLAG, MORI_LINKS_KEY]);
 	set_storage(MORI_SURVEYS_FLAG, 1);
 	window.open(MORI_SURVEYS_URL, '_blank');
 }

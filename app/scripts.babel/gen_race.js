@@ -4,6 +4,9 @@ const GEN_HOST = 'www.gendama.jp';
 const GEN_RACE_URL = 'http://www.gendama.jp/race/';
 const GEN_RACE_FLAG = 'gen_race_flag';
 
+const GEN_FOREST_URL = 'http://www.gendama.jp/forest/';
+const GEN_FOREST_FLAG = 'gen_forest_flag';
+
 let links = [];
 
 $(function(){
@@ -47,6 +50,8 @@ function get_articles()
 function finish()
 {
 	clear([GEN_RACE_FLAG]);
+	set_storage(GEN_FOREST_FLAG, 1);
+	window.open(GEN_FOREST_URL, '_blank');
 }
 
 function set_storage(key, value)

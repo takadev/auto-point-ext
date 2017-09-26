@@ -7,9 +7,6 @@ const MORI_VOTE_NUM = 'mori_vote_num';
 const VOTE_HOST = 'vote.media-ad.jp';
 const DECISION_HOST = "mrga.decision-four.xyz";
 
-//const MORI_COLUMNS_URL = 'http://mrga.service-navi.jp/square/columns';
-//const MORI_COLUMNS_FLAG = 'mori_columns_flag';
-
 let links = [];
 
 $(function(){
@@ -141,8 +138,6 @@ function finish()
 {
 	clear([MORI_VOTE_FLAG, MORI_VOTE_KEY])
 	window.close();
-	//set_storage(MORI_COLUMNS_FLAG, 1);
-	//window.open(MORI_COLUMNS_URL, '_blank');
 }
 
 function set_storage(key, value)

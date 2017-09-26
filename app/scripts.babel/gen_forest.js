@@ -7,6 +7,9 @@ const GEN_FOREST_FLAG = 'gen_forest_flag';
 const GEN_FOREST_KEY = 'gen_forest_links';
 const GEN_AD_FLAG = 'gen_ad_flag';
 
+const GEN_SURVEYS_URL = 'http://www.gendama.jp/survey';
+const GEN_SURVEYS_FLAG = 'gen_surveys_flag';
+
 let links = [];
 
 $(function(){
@@ -87,7 +90,9 @@ function next()
 
 function finish()
 {
-	clear([GEN_FOREST_FLAG, GEN_FOREST_KEY])
+	clear([GEN_FOREST_FLAG, GEN_FOREST_KEY]);
+	set_storage(GEN_SURVEYS_FLAG, 1);
+	window.open(GEN_SURVEYS_URL, '_blank');
 }
 
 function set_storage(key, value)

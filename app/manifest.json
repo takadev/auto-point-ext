@@ -24,7 +24,8 @@
       "scripts/mori_columns.js",
       "scripts/mori_vote.js",
       "scripts/gen_forest.js",
-      "scripts/gen_race.js"
+      "scripts/gen_race.js",
+      "scripts/gen_survey.js"
     ]
   }],
   "browser_action": {

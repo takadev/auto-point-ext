@@ -5,8 +5,11 @@ const MORI_COLUMNS_FLAG = 'mori_columns_flag';
 const MORI_COLUMNS_KEY = 'mori_columns_links';
 const COLUMNS_HOST = 'column-enquete-reado.com';
 
-const MORI_VOTE_URL = 'http://mrga.service-navi.jp/square/votes';
-const MORI_VOTE_FLAG = 'mori_vote_flag';
+//const MORI_VOTE_URL = 'http://mrga.service-navi.jp/square/votes';
+//const MORI_VOTE_FLAG = 'mori_vote_flag';
+const GEN_RACE_URL = 'http://www.gendama.jp/race/';
+const GEN_RACE_FLAG = 'gen_race_flag';
+
 
 let links = [];
 
@@ -132,9 +135,9 @@ function next()
 
 function finish()
 {
-	clear([MORI_COLUMNS_FLAG, MORI_COLUMNS_KEY])
-	set_storage(MORI_VOTE_FLAG, 1);
-	window.open(MORI_VOTE_URL, '_blank');
+	clear([MORI_COLUMNS_FLAG, MORI_COLUMNS_KEY]);
+	set_storage(GEN_RACE_FLAG, 1);
+	window.open(GEN_RACE_URL, '_blank');
 }
 
 function set_storage(key, value)

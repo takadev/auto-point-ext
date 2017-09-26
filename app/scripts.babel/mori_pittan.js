@@ -118,7 +118,7 @@ function next()
 
 function finish()
 {
-	clear([MORI_PITTAN_FLAG, MORI_PITTAN_KEY])
+	clear([MORI_PITTAN_FLAG, MORI_PITTAN_KEY]);
 	set_storage(MORI_COLUMNS_FLAG, 1);
 	window.open(MORI_COLUMNS_URL, '_blank');
 }

@@ -76,7 +76,6 @@ function read_article(articles)
 		var tag = $("section#complete").find("a.modal-close");
 		$(tag)[0].click();
 	}, 1000);
-
 	if (articles.length <= 0)
 	{
 		finish();
