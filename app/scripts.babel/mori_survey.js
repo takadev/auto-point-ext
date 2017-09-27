@@ -4,7 +4,7 @@ const MORI = 'mrga.service-navi.jp';
 const MORI_SURVEYS_URL = 'http://mrga.service-navi.jp/square/surveys';
 const MORI_SURVEYS_FLAG = 'mori_surveys_flag';
 const MORI_SURVEYS_KEY = 'mori_surveys_links';
-const CREDIT_LINK = 'credit-card.link'
+const CREDIT_LINK = 'credit-card.link';
 
 const MORI_DIAGNOSES_URL = 'http://mrga.service-navi.jp/square/diagnoses';
 const MORI_DIAGNOSES_FLAG = 'mori_diagnoses_flag';

@@ -4,6 +4,7 @@ const MORI_DIAGNOSES_URL = 'http://mrga.service-navi.jp/square/diagnoses';
 const MORI_DIAGNOSES_FLAG = 'mori_diagnoses_flag';
 const MORI_DIAGNOSES_KEY = 'mori_diagnoses_links';
 const CREDIT_LINK = 'credit-card.link';
+const SYOUHISYA_LINK = 'syouhisya-kinyu.com';
 
 const MORI_PITTAN_URL = 'http://mrga.service-navi.jp/square/pittango';
 const MORI_PITTAN_FLAG = 'mori_pittan_flag';
@@ -25,6 +26,11 @@ $(function(){
 		else if (location.href.indexOf(CREDIT_LINK) != -1)
 		{
 			answer();
+		}
+		else if (location.href.indexOf(SYOUHISYA_LINK) != -1)
+		{
+			//next();
+			syouhisya_answer();
 		}
 	});
 });
@@ -102,6 +108,70 @@ function check()
 	{
 		next();
 	}
+}
+
+function syouhisya_answer()
+{
+	syouhisya_check();
+}
+
+function syouhisya_check()
+{
+	let iframe;
+	$('iframe').each(function()
+	{
+		if ($(this).attr('src').indexOf('recaptcha') != -1)
+		{
+			iframe = $(this);
+			return false;
+		}
+	});
+	if (iframe.length)
+	{
+		let recapt = $(iframe).contents().find('div.recaptcha-checkbox-checkmark');
+		$(recapt)[0].click();
+		let buttons = $('span#end-btn-area').find('button');
+		$(buttons)[0].click();
+		next();
+		return false;
+	}
+
+	let form = $('form');
+	let index = 1;
+	while(true)
+	{
+		let radio = false;
+		let checkbox = false;
+		let group_tag = $("div#group-" + String(index));
+		if (group_tag.length <= 0) {
+			break;
+		}
+		let inputs = $(group_tag).find('input');
+		inputs.each(function(i, elem){
+			let type = $(elem).attr('type');
+			if (type == 'radio' && radio == false)
+			{
+				$(elem).prop('checked', true);
+				radio = true;
+			}
+			else if (type == 'checkbox' && checkbox == false)
+			{
+				$(elem).prop("checked", true);
+				checkbox = true;
+			}
+			else if (type == 'button' || type == 'submit')
+			{
+				$(elem).click();
+			}
+		});
+		index++;
+	}
+	$("div.actionBar").find('a').each(function(){
+		if ($(this).text().indexOf('終了') != -1)
+		{
+			$(this).click();
+		}
+	});
 }
 
 function next()

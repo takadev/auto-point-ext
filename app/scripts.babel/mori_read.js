@@ -39,7 +39,7 @@ $(function(){
 		{
 			if (location.href.indexOf('/bonus/') != -1)
 			{
-				$("a.entrance__button.ad_article").click();
+				$("a.entrance__button.ad_article")[0].click();
 			}
 			else
 			{
