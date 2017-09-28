@@ -62,7 +62,7 @@ function answer()
 {
 	timer = setInterval(function(){
 		check();
-	}, 300)
+	}, 1000)
 }
 
 function check()
@@ -117,25 +117,6 @@ function syouhisya_answer()
 
 function syouhisya_check()
 {
-	let iframe;
-	$('iframe').each(function()
-	{
-		if ($(this).attr('src').indexOf('recaptcha') != -1)
-		{
-			iframe = $(this);
-			return false;
-		}
-	});
-	if (iframe.length)
-	{
-		let recapt = $(iframe).contents().find('div.recaptcha-checkbox-checkmark');
-		$(recapt)[0].click();
-		let buttons = $('span#end-btn-area').find('button');
-		$(buttons)[0].click();
-		next();
-		return false;
-	}
-
 	let form = $('form');
 	let index = 1;
 	while(true)
@@ -146,7 +127,9 @@ function syouhisya_check()
 		if (group_tag.length <= 0) {
 			break;
 		}
+		$(group_tag).removeClass('dia-invisible');
 		let inputs = $(group_tag).find('input');
+
 		inputs.each(function(i, elem){
 			let type = $(elem).attr('type');
 			if (type == 'radio' && radio == false)
@@ -166,12 +149,62 @@ function syouhisya_check()
 		});
 		index++;
 	}
-	$("div.actionBar").find('a').each(function(){
-		if ($(this).text().indexOf('終了') != -1)
+
+	$("div.col-md-offset-2").find('a').each(function(){
+		if ($(this).text().indexOf('次') != -1)
 		{
-			$(this).click();
+			$(this)[0].click();
 		}
 	});
+
+	$("div.actionBar").find('a').each(function(){
+		let text = $(this).text();
+		if (text.indexOf('次') != -1 ||
+			text.indexOf('終了') != -1)
+		{
+			$(this).css({'display':''});
+			$(this)[0].click();
+		}
+	});
+
+	setTimeout(function(){
+		let buttons = $('span#end-btn-area').find('button');
+		$(buttons).removeAttr('disabled');
+		let param = get_param();
+		$.ajax({
+			url: 'http://syouhisya-kinyu.com/agw3/send',
+			type: 'post',
+			data: {
+				"uid": '1365948',
+				"cid": String(param['cid']),
+				'_token': $("#_token").val(),
+				'g-recaptcha-response': $('#g-recaptcha-response').val(),
+				'dia_id': Number(param['cid'])
+			},
+			async: false,
+			dataType: 'json',
+			complete: function(){
+				console.log('COMP');
+			}
+		});
+		//$(buttons)[0].click();
+		next();
+	}, 1500);
+}
+
+function get_param()
+{
+	let url = location.href;
+	let params = url.split("?");
+	let sp_params = params[1].split("&");
+
+	var param_arr = [];
+	for (var i = 0; i < sp_params.length; i++) {
+		let vol = sp_params[i].split("=");
+		param_arr.push(vol[0]);
+		param_arr[vol[0]] = vol[1];
+	}
+	return param_arr;
 }
 
 function next()
