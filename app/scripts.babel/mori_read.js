@@ -39,6 +39,7 @@ $(function(){
 		{
 			if (location.href.indexOf('/bonus/') != -1)
 			{
+				set_storage(MORI_READ_FLAG, 1);
 				$("a.entrance__button.ad_article")[0].click();
 			}
 			else
