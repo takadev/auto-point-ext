@@ -16,10 +16,8 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
 {
 	if (request == "real_world")
 	{
-		set_storage(MONOW_FLAG, 1);
-		window.open(MONOW_URL, '_blank');
-		//set_storage(REAL_PAGE_KEY, 1);
-		//window.open(REAL_WORLD_PAGE + "1", '_blank');
+		set_storage(REAL_PAGE_KEY, 1);
+		window.open(REAL_WORLD_PAGE + "1", '_blank');
 	}
 });
 
