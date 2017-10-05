@@ -5,8 +5,8 @@ const REAL_LINKS_KEY = 'real_links';
 const REAL_PAGE_KEY = 'real_world_page';
 const REAL_WORLD_PAGE = 'http://realworld.jp/contents/rec/page/';
 
-const MORI_FLAG = 'mori_flag';
-const MORI_READ_URL = 'http://mrga.service-navi.jp/square/articles';
+const MONOW_URL = 'http://www.monow.jp';
+const MONOW_FLAG = 'monow_flag';
 
 let page_num = 1;
 let cnt = 0;
@@ -16,8 +16,10 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
 {
 	if (request == "real_world")
 	{
-		set_storage(REAL_PAGE_KEY, 1);
-		window.open(REAL_WORLD_PAGE + "1", '_blank');
+		set_storage(MONOW_FLAG, 1);
+		window.open(MONOW_URL, '_blank');
+		//set_storage(REAL_PAGE_KEY, 1);
+		//window.open(REAL_WORLD_PAGE + "1", '_blank');
 	}
 });
 
@@ -96,8 +98,8 @@ function go_article(articles)
 function finish()
 {
 	clear([REAL_LINKS_KEY]);
-	set_storage(MORI_FLAG, 1);
-	window.open(MORI_READ_URL, '_blank');
+	set_storage(MONOW_FLAG, 1);
+	window.open(MONOW_URL, '_blank');
 }
 
 function set_storage(key, value)
