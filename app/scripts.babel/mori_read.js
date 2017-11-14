@@ -44,8 +44,7 @@ $(function(){
 			}
 			else
 			{
-				let url = $("div.button__layer").find('a').attr('href');
-				window.location.href = url;
+				$("form#article-jump").submit();
 			}
 		}
 		else
@@ -92,7 +91,14 @@ function go_article(articles)
 			{
 				let bonus = value[MORI_BONUS_KEY];
 				clear([MORI_BONUS_KEY]);
-				window.location.href = 'http://' + MORI_GAMEAPP + bonus;
+				alert(bonus);
+				console.log(bonus);
+				if (bonus != undefined) {
+					window.location.href = 'http://' + MORI_GAMEAPP + bonus;
+				} else {
+					finish();
+					return false;
+				}
 			}
 		});
 	}
