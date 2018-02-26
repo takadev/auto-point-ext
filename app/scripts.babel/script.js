@@ -8,7 +8,7 @@ const REAL_WORLD_PAGE = 'http://realworld.jp/contents/rec/page/';
 const MONOW_URL = 'http://www.monow.jp';
 const MONOW_FLAG = 'monow_flag';
 
-let page_num = 1;
+let page_num = 7;
 let cnt = 0;
 let links = [];
 
@@ -17,7 +17,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
 	if (request == "real_world")
 	{
 		set_storage(REAL_PAGE_KEY, 1);
-		window.open(REAL_WORLD_PAGE + "1", '_blank');
+		window.open(REAL_WORLD_PAGE + "7", '_blank');
 	}
 });
 
